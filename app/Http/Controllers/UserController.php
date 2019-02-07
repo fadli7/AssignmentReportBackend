@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Transformers\UserTransformer;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,5 +16,11 @@ class UserController extends Controller
             ->collection($users)
             ->transformWith(new UserTransformer)
             ->toArray();
+    }
+
+    public function user(User $user) {
+        $user = Auth::user();
+
+        return response()->json(["user" => $user]);
     }
 }

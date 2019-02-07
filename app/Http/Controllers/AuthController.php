@@ -54,4 +54,11 @@ class AuthController extends Controller
 //            ->toArray();
         return response()->json($user);
     }
+
+    public function logout(User $user) {
+        $user = Auth::user();
+        $user->api_token()->revoke();
+
+        return response()->json(['status' => 'Have Log out']);
+    }
 }

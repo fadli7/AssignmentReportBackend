@@ -20,4 +20,7 @@ use Illuminate\Http\Request;
 Route::post('auth/register', 'AuthController@register');
 Route::post('auth/login', 'AuthController@login');
 Route::get('users', 'UserController@users')->middleware('auth:api');
+Route::get('user', 'UserController@user')->middleware('auth:api');
+Route::post('auth/logout', 'AuthController@logout')->middleware('auth:api');
+
 
