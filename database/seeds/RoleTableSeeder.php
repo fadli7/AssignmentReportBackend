@@ -12,6 +12,20 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('role')->insert([
+            'name'  => 'Manager',
+        ]);
 
+        DB::table('role')->insert([
+            'name'  => 'SPV',
+        ]);
+
+        DB::table('role')->insert([
+            'name'  => 'PLT',
+        ]);
+
+        DB::table('role')->insert([
+            'name'  => 'Field Engineer',
+        ]);
     }
 }

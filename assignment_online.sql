@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Feb 2019 pada 11.00
+-- Waktu pembuatan: 08 Feb 2019 pada 07.27
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 7.3.0
 
@@ -164,6 +164,16 @@ CREATE TABLE `role` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `role`
+--
+
+INSERT INTO `role` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Manager', NULL, NULL),
+(2, 'SPV', NULL, NULL),
+(3, 'PLT', NULL, NULL),
+(4, 'Field Engineer', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -199,6 +209,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `full_name`, `token_api`, `role_id`, `picture`, `created_at`, `updated_at`) VALUES
+(1, 'user', 'user@example.com', '$2y$10$8dJuQGeOismM1HVAscT8zukV4XnqYerteoSFhbMNwJkgaaDcN3FRe', 'User Aman', '$2y$10$D12NVP.9bRpeVma1hhlGZOILb4drQ67rwT2y2Urb9AQ7d6TlKAP4K', 1, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -317,7 +334,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `time_record`
@@ -329,7 +346,7 @@ ALTER TABLE `time_record`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
