@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
             'email'         => 'user@example.com',
             'password'      => bcrypt('sandiaman'),
             'full_name'     => 'User Aman',
-            'token_api'     => bcrypt('user@example.com'),
+            'api_token'     => bcrypt('user@example.com'),
             'role_id'       => 1,
         ]);
     }

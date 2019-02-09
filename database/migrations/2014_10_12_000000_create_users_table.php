@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('full_name');
             $table->string('api_token');
             $table->integer('role_id')->unsigned();
-            $table->string('picture')->nullable();
+            $table->text('picture')->nullable();
             $table->timestamps();
 
 //            $table->foreign('role_id')->references('id')->on('role');
