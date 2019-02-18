@@ -13,7 +13,7 @@ class UpdateDisposeAssignmentTableForRelation extends Migration
      */
     public function up()
     {
-        Schema::table('dispose_assignment', function (Blueprint $table) {
+        Schema::table('assignment_user', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('assignment_id')->references('id')->on('assignment');
         });

@@ -13,7 +13,7 @@ class CreateDisposeAssignmentTable extends Migration
      */
     public function up()
     {
-        Schema::create('dispose_assignment', function (Blueprint $table) {
+        Schema::create('assignment_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('assignment_id')->unsigned();

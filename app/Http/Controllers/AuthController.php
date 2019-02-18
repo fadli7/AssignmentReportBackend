@@ -22,7 +22,7 @@ class AuthController extends Controller
             'username'      => $request->username,
             'email'         => $request->email,
             'password'      => bcrypt($request->password),
-            'token_api'     => bcrypt($request->email),
+            'api_token'     => bcrypt($request->email),
             'full_name'     => $request->full_name,
             'role_id'       => (int)$request->role_id,
         ]);
@@ -31,7 +31,7 @@ class AuthController extends Controller
             ->item($user)
             ->transformWith(new UserTransformer)
             ->addMeta([
-                'token_api' => $user->api_token
+                'api_token' => $user->api_token
             ])
             ->toArray();
 

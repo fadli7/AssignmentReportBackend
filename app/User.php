@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Role;
+use App\Assignment;
 
 class User extends Authenticatable
 {
@@ -17,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password', 'role_id', 'full_name', 'token_api',
+        'username', 'email', 'password', 'role_id', 'full_name', 'api_token'
     ];
 
     /**
@@ -31,5 +32,13 @@ class User extends Authenticatable
 
     public function role() {
         return $this->belongsTo(Role::class);
+    }
+
+    public function assignment() {
+        return $this->belongsToMany(Assignment::class);
+    }
+
+    public function dispose_assignment() {
+        return $this->hasMany(DisposeAssignment::class);
     }
 }

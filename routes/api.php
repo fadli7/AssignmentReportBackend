@@ -21,6 +21,7 @@ Route::post('auth/register', 'AuthController@register');
 Route::post('auth/login', 'AuthController@login');
 Route::get('users', 'UserController@users')->middleware('auth:api');
 Route::get('user', 'UserController@user')->middleware('auth:api');
+Route::get('profile', 'UserController@profile')->middleware('auth:api');
 Route::post('auth/logout', 'AuthController@logout')->middleware('auth:api');
-
-
+Route::post('assignment/create', 'AssignmentController@create')->middleware('auth:api');
+Route::get('assignment/list', 'AssignmentController@list')->middleware('auth:api');

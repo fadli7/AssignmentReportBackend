@@ -15,7 +15,7 @@ class CreateAssignmentReportTable extends Migration
     {
         Schema::create('assignment_report', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('dispose_assignment_id')->unsigned();
+            $table->integer('assignment_user_id')->unsigned();
             $table->string('assignment_type');
             $table->integer('time_record_id')->unsigned();
             $table->integer('customer_info_id')->unsigned();
