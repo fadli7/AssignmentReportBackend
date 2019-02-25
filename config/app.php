@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         \Spatie\Fractal\FractalServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -225,7 +226,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Fractal'   => \Spatie\Fractal\FractalFacade::class,
-
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

@@ -15,11 +15,15 @@ class Assignment extends Model
         'assignment_desc',
     ];
 
-    public function dispose_assignment() {
-        $this->belongsTo(DisposeAssignment::class);
+    public function assignment_user() {
+        $this->hasMany(AssignmentUser::class);
     }
 
     public function user() {
         return $this->belongsToMany(User::class);
+    }
+
+    public function ptl() {
+        return $this->belongsTo(User::class);
     }
 }
