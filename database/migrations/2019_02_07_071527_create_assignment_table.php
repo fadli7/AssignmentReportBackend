@@ -21,6 +21,7 @@ class CreateAssignmentTable extends Migration
             $table->string('assignment_class');
             $table->string('assignment_tittle');
             $table->text('assignment_desc');
+            $table->string('status');
             $table->timestamps();
 
             $table->foreign('ptl_id')->references('id')->on('users');

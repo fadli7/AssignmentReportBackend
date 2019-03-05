@@ -21,13 +21,16 @@ class AssignmentController extends Controller
 
         // ]);
 
+        // \Log::info($request->engineer);
+
         $assignment = $assignment->create([
             'ptl_id'            => \Auth::user()->id,
             'project_number'    => $request->project_number,
             'io_number'         => $request->io_number,
             'assignment_class'  => $request->assignment_class,
             'assignment_tittle'  => $request->assignment_tittle,
-            'assignment_desc'   => $request->assignment_desc
+            'assignment_desc'   => $request->assignment_desc,
+            'status'            => "On Progress",
         ]);
 
         $engineer = $request->engineer;
@@ -42,27 +45,28 @@ class AssignmentController extends Controller
 
             // $id = "user_id_" . $i;
 
+            // \Log::info($engineer[$i]);
+
+            $id = (int) $engineer[$i]['id'];
+
             // \Log::info($id);
-
-            $id = (int) $engineer[$i];
-
-            \Log::info($id);
-            \Log::info(gettype($id));
-
+            // \Log::info(gettype($id));
+            // \dd();
             if ($i == 0) {
                 $assignmentUser->create([
                     'user_id'           => $id,
                     'assignment_id'     => $assignment->id,
                     'is_leader'         => 1,
                 ]);
-                // \Log::info('leader');
+                \Log::info('leader');
 
             } else {
                 $assignmentUser->create([
                     'user_id'           => $id,
                     'assignment_id'     => $assignment->id,
+                    'is_leader'         => 0,
                 ]);
-                // \Log::info('not leader');
+                \Log::info('not leader');
 
             }
         }
@@ -89,24 +93,25 @@ class AssignmentController extends Controller
             // ->join('users', 'assignment.ptl_id', '=', 'users.id')
             ->with('ptl')
             ->with('user')
+            // ->with('assignment_user')
             ->get();
 
         return response()->json($assignment);
     }
 
     public function export(Assignment $assignments) {
-        $assignments = $assignments
-            ->with(['ptl' => function($value) {
-                $value->select('full_name');
-            }])
-            ->with(['user' => function($value) {
-                $value->select('full_name');
-            }])
-            ->get();
+        // $assignments = $assignments
+        //     ->with(['ptl' => function($value) {
+        //         $value->select('full_name');
+        //     }])
+        //     ->with(['user' => function($value) {
+        //         $value->select('full_name');
+        //     }])
+        //     ->get();
 
-        return response()->json($assignments);
+        // return response()->json($assignments);
 
-        // return Excel::download(new AssignmentExport, 'test.xlsx');
+        return Excel::store(new AssignmentExport(), 'test.xlsx');
     }
 
     public function listAssignment(Assignment $assignment, AssignmentReport $assignmentReport,
@@ -114,7 +119,7 @@ class AssignmentController extends Controller
 
         $id = \Auth::user()->id;
         $assignmentUser = $assignmentUser
-            ->with('assignment')
+            ->with('assignment.ptl')
             ->where('user_id', '=', $id)
             ->get();
 
@@ -127,7 +132,7 @@ class AssignmentController extends Controller
         return response()->json($assignment);
     }
 
-    public function submitAR(Request $request,Assignment $assignment, AssignmentReport $assignmentReport,
+    public function submitAR(Request $request, Assignment $assignment, AssignmentReport $assignmentReport,
         CustomerInfo $customerInfo, TimeRecord $timeRecord, AssignmentUser $assignmentUser) {
         // $request->file('bai');
         // $bai = $request->bai->store('public/file');
@@ -151,21 +156,28 @@ class AssignmentController extends Controller
 
         $bai = $request->file('bai');
         $bai_name = rand(1, 999) . '_' . $bai->getClientOriginalName();
+        // $bai_name = rand(1, 999);
         $bai_name = str_replace(' ', '-', $bai_name);
         $bai_loc = $host . '/file/' . $bai_name;
         $bai->move($destinationFile, $bai_name);
 
         $tnc = $request->file('tnc');
         $tnc_name = rand(1, 999) . '_' . $tnc->getClientOriginalName();
+        // $tnc_name = rand(1, 999);
         $tnc_name = str_replace(' ', '-', $tnc_name);
         $tnc_loc = $host . '/file/' . $tnc_name;
         $tnc->move($destinationFile, $tnc_name);
 
         $photos = $request->file('photos');
         $photos_name = rand(1, 999) . '_' . $photos->getClientOriginalName();
+        // $photos_name = rand(1, 999);
         $photos_name = str_replace(' ', '-', $photos_name);
         $photos_loc = $host . '/img/' . $photos_name;
         $photos->move($destinationImage, $photos_name);
+
+        $assignment = $assignment->find($request->assignment_id);
+        $assignment->status = "Waiting Approvement";
+        $assignment->save();
 
         $timeRecord = $timeRecord->create([
             'date_work'             => $request->date_work,
@@ -197,6 +209,8 @@ class AssignmentController extends Controller
             'result'                => $request->result,
         ]);
 
+
+
         // ------------------------------------------------------
 
         // $image = $request->file('image');
@@ -208,7 +222,15 @@ class AssignmentController extends Controller
 
         // $image->move($destinationPath, $imgname);
 
-        return response()->json($assignmentReport);
+        return response()->json($assignmentUser);
         // return response()->json($assignmentUser);
+    }
+
+    public function listAssignmentPTL(Assignment $assignment) {
+        $assignment = $assignment
+            ->where('ptl_id', \Auth::user()->id)
+            ->get();
+
+        return response()->json($assignment);
     }
 }

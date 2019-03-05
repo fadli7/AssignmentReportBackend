@@ -12,7 +12,7 @@ class Assignment extends Model
 
     protected $fillable = [
         'ptl_id', 'project_number', 'io_number', 'assignment_class', 'assignment_tittle',
-        'assignment_desc',
+        'assignment_desc', 'status',
     ];
 
     public function assignment_user() {

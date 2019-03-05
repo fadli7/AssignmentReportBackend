@@ -11,19 +11,21 @@ class AuthController extends Controller
 {
     public function register(Request $request, User $user) {
         $this->validate($request, [
-            'username'      => 'required',
             'email'         => 'required|email|unique:users',
             'password'      => 'required|min:6',
             'full_name'     => 'required',
+            'place_birth'   => 'required',
+            'date_birth'    => 'required',
             'role_id'       => 'required',
         ]);
 
         $user = $user->create([
-            'username'      => $request->username,
             'email'         => $request->email,
             'password'      => bcrypt($request->password),
             'api_token'     => bcrypt($request->email),
             'full_name'     => $request->full_name,
+            'place_birth'   => $request->place_birth,
+            'date_birth'    => $request->date_birth,
             'role_id'       => (int)$request->role_id,
         ]);
 

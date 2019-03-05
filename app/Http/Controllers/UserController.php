@@ -24,8 +24,46 @@ class UserController extends Controller
         return response()->json(["user" => $user]);
     }
 
-    public function profile() {
+    public function profile(User $users) {
+        // $user = Auth::user();
+
         $user = Auth::user();
+
+        $users = $users->with('role')->find($user->id);
+
+        return response()->json($users);
+    }
+
+    public function engineers(User $users) {
+        $users = $users
+            ->where('role_id', 4)
+            ->get();
+
+        return response()->json($users);
+    }
+
+    public function update(Request $request, User $users) {
+        $user = Auth::user();
+
+        // $host = $request->getHttpHost();
+        // $destination = public_path('/img');
+
+        // $picture = $request->file('picture');
+        // $picture_name = rand(1, 999) . '_' . $picture->getClientOriginalName();
+        // $picture_name = str_replace(' ', '-', $picture_name);
+        // $picture_loc = $host . '/file' . $picture_name;
+        // $picture->move($destination, $picture_name);
+
+        $user->password = bcrypt($request->password);
+        $user->full_name = $request->full_name;
+        $user->phone_number = $request->phone_number;
+        $user->address = $request->address;
+        $user->place_birth = $request->place_birth;
+        $user->date_birth = $request->date_birth;
+        $user->motto = $request->motto;
+        // $user->picture = $picture_loc;
+        $user->save();
+
 
         return response()->json($user);
     }

@@ -18,7 +18,7 @@ class CreateDisposeAssignmentTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('assignment_id')->unsigned();
             $table->float('rating')->default(0);
-            $table->boolean('is_leader')->default(0);
+            $table->boolean('is_leader');
             $table->timestamps();
         });
     }
