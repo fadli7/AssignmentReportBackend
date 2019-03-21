@@ -15,16 +15,16 @@ class CreateAssignmentReportTable extends Migration
     {
         Schema::create('assignment_report', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('assignment_user_id')->unsigned();
+            $table->bigInteger('assignment_id')->unsigned();
             $table->string('assignment_type');
             $table->integer('time_record_id')->unsigned();
             $table->integer('customer_info_id')->unsigned();
             $table->boolean('sppd_status')->default(0);
             $table->integer('day_number');
             $table->string('brief_work');
-            $table->text('bai');
-            $table->text('tnc');
-            $table->text('photos');
+            // $table->text('bai');
+            // $table->text('tnc');
+            // $table->text('photos');
             $table->text('other');
             $table->text('result');
             $table->timestamps();

@@ -19,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'email', 'password', 'full_name', 'role_id', 'api_token', 'place_birth', 'date_birth',
+        'start_date'
     ];
 
     /**
@@ -40,5 +41,9 @@ class User extends Authenticatable
 
     public function dispose_assignment() {
         return $this->hasMany(DisposeAssignment::class);
+    }
+
+    public function utilization() {
+        return $this->belongsTo(Utilization::class);
     }
 }

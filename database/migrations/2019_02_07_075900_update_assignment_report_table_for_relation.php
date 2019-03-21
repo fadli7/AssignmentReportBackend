@@ -14,7 +14,7 @@ class UpdateAssignmentReportTableForRelation extends Migration
     public function up()
     {
         Schema::table('assignment_report', function (Blueprint $table) {
-            $table->foreign('assignment_user_id')->references('id')->on('assignment_user');
+            $table->foreign('assignment_id')->references('id')->on('assignment');
             $table->foreign('time_record_id')->references('id')->on('time_record');
             $table->foreign('customer_info_id')->references('id')->on('customer_info');
         });

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDisposeAssignmentTable extends Migration
+class CreateReportFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateDisposeAssignmentTable extends Migration
      */
     public function up()
     {
-        Schema::create('assignment_user', function (Blueprint $table) {
+        Schema::create('report_files', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->bigInteger('assignment_id')->unsigned();
-            $table->float('rating')->default(0);
-            $table->boolean('is_leader');
+            $table->integer('report_id')->unsigned();
+            $table->foreign('report_id')->references('id')->on('assignment_report');
+            $table->string('type');
+            $table->text('filename');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateDisposeAssignmentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dispose_assignment');
+        Schema::dropIfExists('report_files');
     }
 }

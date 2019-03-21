@@ -14,6 +14,9 @@ class HistoryController extends Controller
             ->with('assignment')
             ->get();
 
+        $history = collect($history)->sortByDesc('created_at');
+        $history = $history->values()->all();
+
         return response()->json($history);
     }
 

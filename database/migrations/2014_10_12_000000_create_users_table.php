@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('motto')->nullable();
             $table->string('api_token');
             $table->integer('role_id')->unsigned();
+            $table->date('start_date');
             $table->text('picture')->nullable();
             $table->timestamps();
 

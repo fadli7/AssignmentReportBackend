@@ -15,4 +15,12 @@ class AssignmentUser extends Model
     public function assignment() {
         return $this->belongsTo(Assignment::class);
     }
+
+    public function assignment_report() {
+        return $this->hasMany(AssignmentReport::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

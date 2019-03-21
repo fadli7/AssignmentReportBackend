@@ -33,9 +33,16 @@ Route::get('assignment/all', 'AssignmentController@listAll')->middleware('auth:a
 Route::get('assignment/all/export', 'AssignmentController@export')->middleware('auth:api');
 Route::get('assignment/list', 'AssignmentController@listAssignment')->middleware('auth:api');
 Route::get('assignment/ptl', 'AssignmentController@listAssignmentPTL')->middleware('auth:api');
+Route::get('assignment/detail/{id}', 'AssignmentController@showDetailAssignment')->middleware('auth:api');
+Route::post('assignment/approve', 'AssignmentController@approve')->middleware('auth:api');
+Route::post('assignment/delete', 'AssignmentController@delete_assignment')->middleware('auth:api');
 
 Route::get('ar/create/{id}', 'AssignmentController@createAR')->middleware('auth:api');
 Route::post('ar/submit', 'AssignmentController@submitAR')->middleware('auth:api');
 
 Route::get('history/recent', 'HistoryController@recent')->middleware('auth:api');
 Route::get('history/idle', 'HistoryController@idle')->middleware('auth:api');
+
+Route::get('utilization/all', 'UtilizationController@all')->middleware('auth:api');
+
+Route::get('testMail', 'AssignmentController@test_email')->middleware('auth:api');
