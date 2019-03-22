@@ -307,9 +307,13 @@ class AssignmentController extends Controller
     public function approve(Request $request, Utilization $utilizations, Assignment $assignments,
         AssignmentReport $assignmentReports, AssignmentUser $assignmentUsers, User $users) {
 
+        // $engineers = $request->engineers;
+
+        // return response()->json($engineers[0]['id']);
+
         $assignment = $assignments
-        ->where('id', $request->assignment_id)
-        ->first();
+            ->where('id', $request->assignment_id)
+            ->first();
 
         $assignment->status = 'Closed';
         $assignment->save();
@@ -318,14 +322,23 @@ class AssignmentController extends Controller
 
         $engineers = $request->engineers;
 
-        foreach ($engineers as $engineer_id) {
+        foreach ($engineers as $engineer) {
+            // Set Rating
+            $assignmentUser = $assignmentUsers
+                ->where('assignment_id', $request->assignment_id)
+                ->where('user_id', $engineer['id'])
+                ->first();
+
+            $assignmentUser->rating = $engineer['rating'];
+            $assignmentUser->save();
+
             // Get The Utilization
             $utilization = $utilizations
-                ->where('user_id', $engineer_id)
+                ->where('user_id', $engineer['id'])
                 ->first();
 
             // Search Workdays Total
-            $user = $users->where('id', $engineer_id)->first();
+            $user = $users->where('id', $engineer['id'])->first();
             $strDateFrom    = $user->start_date;
             $strDateTo      =  date("Y-m-d");
             $aryRange       = array();
@@ -363,7 +376,7 @@ class AssignmentController extends Controller
             // Search Total Hours
             $assignmentUser = $assignmentUsers
                 ->with('assignment.assignment_report.time_record')
-                ->where('user_id', $engineer_id)
+                ->where('user_id', $engineer['id'])
                 ->whereHas('assignment', function($query) {
                     return $query->where('status', 'Closed');
                 })
@@ -408,7 +421,7 @@ class AssignmentController extends Controller
 
             $sppds = $assignmentUsers
                 ->with('assignment.assignment_report.time_record')
-                ->where('user_id', $engineer_id)
+                ->where('user_id', $engineer['id'])
                 ->whereHas('assignment', function($query) {
                     return $query->where('status', 'Closed');
                 })
@@ -441,16 +454,7 @@ class AssignmentController extends Controller
             $utilization->save();
         }
 
-        // $sppd = $assignmentUsers
-        //         ->with('assignment.assignment_report.time_record')
-        //         // ->where('user_id', $engineer_id)
-        //         ->whereHas('assignment.assignment_report', function($query) {
-        //             return $query->where('sppd_status', 1);
-        //         })
-        //         ->get();
-
         return response()->json(['status' => 'oke']);
-        // return response()->json($sppd);
     }
 
     public function getDiffTime($startTime, $endTime) {
